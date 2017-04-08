@@ -10,5 +10,10 @@
 
     <body>
         @yield('body')
+
+        <script>
+            window.Laravel = { csrfToken: '{{ csrf_token() }}' };
+        </script>
+        <script src="/js/app.js"></script>
     </body>
 </html>

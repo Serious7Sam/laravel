@@ -100,7 +100,7 @@ class ProductController extends Controller
         try {
             $product->vouchers()->attach($voucherId);
         } catch (QueryException $e) {
-            return response('Voucher is added', 400);
+            return response('Voucher already added', 400);
         }
 
         return response('ok', 200);

@@ -9,7 +9,11 @@ class Product extends Model
 {
     const TABLE_NAME = 'product';
     const RELATION_VOUCHERS = 'vouchers';
+    const TABLE_PRODUCT_VOUCHERS = 'product_voucher';
 
+    /**
+     * @internal
+     */
     const MAX_DISCOUNT = 0.6;
 
     /**

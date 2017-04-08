@@ -2,7 +2,6 @@
 
 use App\Entity\Discount;
 use App\Entity\Product;
-use App\Entity\ProductVoucher;
 use App\Entity\Voucher;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -21,7 +20,7 @@ class CreateTables extends Migration
 
     public function down()
     {
-        Schema::drop(ProductVoucher::TABLE_NAME);
+        Schema::drop(Product::TABLE_PRODUCT_VOUCHERS);
         Schema::drop(Product::TABLE_NAME);
         Schema::drop(Voucher::TABLE_NAME);
         Schema::drop(Discount::TABLE_NAME);
@@ -66,7 +65,7 @@ class CreateTables extends Migration
 
     private function createProductVoucherTable()
     {
-        Schema::create(ProductVoucher::TABLE_NAME, function(Blueprint $table) {
+        Schema::create(Product::TABLE_PRODUCT_VOUCHERS, function(Blueprint $table) {
             $table->unsignedInteger('product_id');
             $table->unsignedInteger('voucher_id');
 

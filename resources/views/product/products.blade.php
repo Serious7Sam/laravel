@@ -1,4 +1,4 @@
-<table>
+<table id="products">
     <thead>
         <tr>
             <th>Name</th>
@@ -12,7 +12,7 @@
                 <td>{{ $product->getName() }}</td>
                 <td>{{ round($product->getPriceWithDiscount(), 2) }}</td>
                 <td>
-                    <button>Buy</button>
+                    <button v-on:click="buy('{{ $product->getId() }}')">Buy</button>
                 </td>
             </tr>
         @endforeach
