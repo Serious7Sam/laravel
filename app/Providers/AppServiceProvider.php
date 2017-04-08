@@ -2,27 +2,16 @@
 
 namespace App\Providers;
 
+use App\DataProvider\Product\ProductsDataProviderInterface;
+use App\DataProvider\Product\ActiveProductWithPriceDataProvider;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        //
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
     public function register()
     {
-        //
+        $this->app->singleton(ProductsDataProviderInterface::class, function () {
+            return new ActiveProductWithPriceDataProvider();
+        });
     }
 }

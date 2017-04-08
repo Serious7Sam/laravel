@@ -1,9 +1,9 @@
 @extends('layout')
 
 
-@section('title', 'Test')
+@section('title', 'Products')
 
 
 @section('body')
-    {{-- @each('product.product', $products, 'product')  --}}
+    @include('product.products')
 @endsection

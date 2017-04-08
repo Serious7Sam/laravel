@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Voucher extends Model
 {
     const TABLE_NAME = 'voucher';
+    const RELATION_DISCOUNT = 'discount';
 
     /**
      * @param array $attributes
@@ -25,7 +26,7 @@ class Voucher extends Model
      */
     public function getDiscount()
     {
-        return $this->getRelationValue('discount');
+        return $this->getRelationValue(self::RELATION_DISCOUNT);
     }
 
     /**
@@ -79,8 +80,50 @@ class Voucher extends Model
     /**
      * @return BelongsTo
      */
-    protected function discount()
+    public function discount()
     {
         return $this->belongsTo(Discount::class);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive()
+    {
+        return (bool) $this->attributes['is_active'];
+    }
+
+    /**
+     * @param bool $active
+     *
+     * @return Voucher
+     */
+    public function setActive(bool $active)
+    {
+        $this->attributes['is_active'] = (int) $active;
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getDiscountValue()
+    {
+        return $this->getDiscount()->getValue();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isApplicable()
+    {
+        if (!$this->isActive()) {
+            return false;
+        }
+
+        $now = new \DateTime();
+
+        return $now >= $this->getStartDate() && $now <= $this->getEndDate();
     }
 }

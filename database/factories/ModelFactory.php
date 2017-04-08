@@ -5,14 +5,14 @@
 $factory->define(\App\Entity\Discount::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
-        'value' => $faker->randomFloat(4, 0.01, 0.99),
+        'value' => $faker->randomFloat(4, 0.01, 0.25),
     ];
 });
 
 $factory->define(\App\Entity\Product::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->unique()->name,
-        'price' => $faker->randomFloat(4, 0, 10000),
+        'price' => $faker->randomFloat(4, 0, 1000),
         'is_active' => $faker->boolean(70),
     ];
 });

@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Product extends Model
 {
     const TABLE_NAME = 'product';
+    const RELATION_VOUCHERS = 'vouchers';
+
+    const MAX_DISCOUNT = 0.6;
 
     /**
      * @param array $attributes
@@ -25,7 +28,7 @@ class Product extends Model
      */
     public function getVouchers()
     {
-        return $this->getRelationValue('vouchers');
+        return $this->getRelationValue(self::RELATION_VOUCHERS);
     }
 
     /**
@@ -102,5 +105,33 @@ class Product extends Model
     public function vouchers()
     {
         return $this->belongsToMany(Voucher::class);
+    }
+
+    /**
+     * @return float
+     */
+    public function getPriceWithDiscount()
+    {
+        $discountSum = $this->getDiscountSum();
+        if ($discountSum > self::MAX_DISCOUNT) {
+            $discountSum = self::MAX_DISCOUNT;
+        }
+
+        return $this->getPrice() * (1 + $discountSum);
+    }
+
+    /**
+     * @return float
+     */
+    private function getDiscountSum()
+    {
+        $discountSum = 0;
+        foreach ($this->getVouchers() as $voucher) {
+            if ($voucher->isApplicable()) {
+                $discountSum += $voucher->getDiscountValue();
+            }
+        }
+
+        return $discountSum;
     }
 }
